@@ -44,7 +44,7 @@ abstract class Entite {
 
 	/**
 	 * donne la carte a l'entite
-	 * @param Map map la carte où évoluer
+	 * @param map map la carte où évoluer
 	 */
 	public void setMap (Map map) {
 		this.map = map;
@@ -52,8 +52,8 @@ abstract class Entite {
 
 	/**
 	 * deplace l'entite en position (x,y) en fonction de sa position actuelle
-	 * @param int x la position où aller
-	 * @param int y la position où aller
+	 * @param x x la position où aller
+	 * @param y y la position où aller
 	 * @pre ((x>0) && (x<Canvas.WIDTH)) && ((y>0) && (y<Canvas.HEIGHT))
 	 */
 	public void setLocation (int x, int y) {
@@ -66,22 +66,22 @@ abstract class Entite {
 	/**
 	 * deplace l'entite dans la direction demander
 	 *
-	 * @param String toward direction demande
+	 * @param toward toward direction demande
 	 * @pre (toward.equals("UP") || toward.equals("DOWN") || toward.equals("LEFT") || toward.equals("RIGHT"))
 	 */
 	public abstract boolean move (String toward);
 
 	/**
 	 * deplace l'entite d'une variation de (dx,dy)
-	 * @param int dx le decalage x
-	 * @param int dy le decalage y
+	 * @param dx dx le decalage x
+	 * @param dy dy le decalage y
 	 */
 	public abstract void move (int dx, int dy);
 
 	/**
 	 * verifie que la figure est aussi d'un type correspondant
 	 * pour une interaction avec l'entite
-	 * @param  Figure f la figure avec qui faire potentiellement un interaction
+	 * @param  f f la figure avec qui faire potentiellement un interaction
 	 * @return vrai si l'entite doit faire des actions avec la figure
 	 */
 	public abstract boolean typeCaseToCheck (Figure f);
@@ -89,9 +89,9 @@ abstract class Entite {
 	/**
 	 * definie les actions que l'entite va devoir realiser avec un objet de type gomme
 	 * qui est en position (i,j) sur la Map
-	 * @param Figure[][] map la carte ayant les objets de type gomme
-	 * @param int        i   position colonne pour la Map
-	 * @param int        j   position ligne dans la Map
+	 * @param map map la carte ayant les objets de type gomme
+	 * @param i        i position colonne pour la Map
+	 * @param j        j   position ligne dans la Map
 	 * *@pre (i>=0 && j>=0)
 	 */
 	protected abstract void actionWithGom (Figure[][] map, int i, int j);

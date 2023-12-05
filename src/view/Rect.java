@@ -17,7 +17,8 @@ public class Rect extends Figure
     /**
      * Create a new square.
      *
-     * @param size the square initial size
+     * @param width the square initial size
+     * @param height the square initial size
      * @param x the square initial x location
      * @param y the square initial y location
      * @param color the square initial color.

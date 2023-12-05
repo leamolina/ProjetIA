@@ -58,7 +58,7 @@ class Position implements Comparable{
 
 	/**
 	 * construct a copie of a given position
-	 * @return Position
+	 * @return pos
 	 */
 	public Position clone() {
 		return new Position(this.x, this.y, this.dir);

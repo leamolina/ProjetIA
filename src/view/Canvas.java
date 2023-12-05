@@ -211,7 +211,7 @@ public class Canvas
 
 	/**
 	 * Set the foreground color of the Canvas.
-	 * @param  newColor   the new color for the foreground of the Canvas
+	 * @param  colorString the new color for the foreground of the Canvas
 	 */
 	public void setForegroundColor(String colorString)
 	{

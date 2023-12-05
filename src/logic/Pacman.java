@@ -200,7 +200,7 @@ public class Pacman extends Entite {
 
 	/**
 	 * verifie si un deplacement est possible
-	 * @param  String toward la direction vers laquelle pacman devrait aller
+	 * @param  toward toward la direction vers laquelle pacman devrait aller
 	 * @return vrai si le deplacement est possible
 	 */
 	private boolean testMove (String toward) {
@@ -251,8 +251,8 @@ public class Pacman extends Entite {
 	/**
 	 * deplace l'entite d'un variation dx et dy
 	 * relative a la position actuelle de l'Entite
-	 * @param int dx le deplacement relatif à x
-	 * @param int dy le deplacement relatif à y
+	 * @param dx dx le deplacement relatif à x
+	 * @param dy dy le deplacement relatif à y
 	 */
 	public void move (int dx, int dy) {
 		this.pac.move(dx, dy);
@@ -290,9 +290,9 @@ public class Pacman extends Entite {
 	/**
 	 * definie les actions que l'entite va devoir realiser avec un objet de type gomme
 	 * qui est en position (i,j) sur la Map
-	 * @param Figure[][] map la carte ayant les objets de type gomme
-	 * @param int        i   position colonne pour la Map
-	 * @param int        j   position ligne dans la Map
+	 * @param map map la carte ayant les objets de type gomme
+	 * @param i        i   position colonne pour la Map
+	 * @param j        j   position ligne dans la Map
 	 * @pre (map[i][j] instanceof Gomme) && (i>=0 && j>=0)
 	 */
 	protected void actionWithGom (Figure[][] map, int i, int j) {
@@ -349,7 +349,7 @@ public class Pacman extends Entite {
 
 	/**
 	 * verifie si une colission avec un fantome est effective
-	 * @param  Ghost f le potentiel fantome sur le chemin de pacman
+	 * @param  f f le potentiel fantome sur le chemin de pacman
 	 * @return vrai si une collision est effective
 	 */
 	public boolean colisionGhost (Ghost f) {

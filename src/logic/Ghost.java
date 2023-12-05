@@ -82,7 +82,7 @@ public class Ghost extends Entite {
 	/**
 	 * deplace l'entite dans la direction demander
 	 *
-	 * @param String toward direction demande
+	 * @param toward direction demande
 	 * @pre (toward.equals("UP") || toward.equals("DOWN") || toward.equals("LEFT") || toward.equals("RIGHT"))
 	 */
 	public boolean move (String toward) {
@@ -104,8 +104,8 @@ public class Ghost extends Entite {
 
 	/**
 	 * deplace l'entite d'une variation de (dx,dy)
-	 * @param int dx le decalage x
-	 * @param int dy le decalage y
+	 * @param dx le decalage x
+	 * @param dy le decalage y
 	 */
 	public void move (int dx, int dy) {
 		for (Figure figure : this.getSkin()) {
@@ -178,7 +178,7 @@ public class Ghost extends Entite {
 
 	/**
 	 * [checkCroisement description]
-	 * @param String toward [description]
+	 * @param toward [description]
 	 */
 	public boolean checkCroisement (String toward, boolean moveBeliefState) {
 		boolean haveMoved = false, reInit = false;

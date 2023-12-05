@@ -11,9 +11,9 @@ public class Gomme extends Figure {
   /**
    * constructeur d'une case de jeu Gomme
    * sans gomme
-   * @param  int size          la taille de la case
-   * @param  int x             la position absolue x
-   * @param  int y             la position absolue y
+   * @param size          la taille de la case
+   * @param  x             la position absolue x
+   * @param  y             la position absolue y
    */
   public Gomme (int size, int x, int y) {
     super(size, size, x, y, "black");
@@ -25,10 +25,10 @@ public class Gomme extends Figure {
    * constructeur d'une case de jeu Gomme
    * avec une gomme pouvant etre une supraGomme
    * parametre supra true si est une supragomme
-   * @param  int size          la taille de la case
-   * @param  int x             la position absolue x
-   * @param  int y             la position absolue y
-   * @param  boolean supra     determine si l'objet est une superGomme
+   * @param  size          la taille de la case
+   * @param  x             la position absolue x
+   * @param  y             la position absolue y
+   * @param  supra determine si l'objet est une superGomme
    */
   public Gomme (int size, int x, int y, boolean supra) {
     this(size, x, y);
@@ -47,7 +47,7 @@ public class Gomme extends Figure {
 
   /**
    * place une gomme sur la case
-   * @param Circle c objet formant une gomme
+   * @param c objet formant une gomme
    */
   public void setGomme (Circle c) {
     this.figures[1] = c;
