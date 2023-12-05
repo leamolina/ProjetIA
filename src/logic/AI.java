@@ -106,6 +106,7 @@ public class AI{
 	/**
 	 * function that compute the next action to do (among UP, DOWN, LEFT, RIGHT)
 	 * @param beliefState the current belief-state of the agen
+	 * @param deepth the deepth of the search (size of the largest sequence of action checked)
 	 * @return a string describing the next action (among PacManLauncher.UP/DOWN/LEFT/RIGHT)
 	 */
 	public static String findNextMove(BeliefState beliefState) {
