@@ -50,7 +50,7 @@ public class Map {
 	/**
 	 * Constructeur de la classe Map, il creer un niveau du jeu a partir d'un fichier
 	 *
-	 * @param mapName le numéro de la map a charger
+	 * @param mapNumber le numéro de la map a charger
 	 * @pre mapNumber > 0
 	 */
 	public Map(int mapNumber, PacManLauncher pml) {
