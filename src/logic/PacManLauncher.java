@@ -3,6 +3,7 @@ import java.util.*;
 import data.*;
 import view.*;
 
+//Test
 public class PacManLauncher {
 
 	private data.Map maps;
