@@ -289,11 +289,11 @@ public class AI{
 				cptGhost++;
 			}
 		}
-		malus +=(cptGhost)*20000;
+		malus +=(cptGhost)/4;
 
 
 		//Fuir les murs
-		double cptMur = 0;
+		/*double cptMur = 0;
 		if(beliefState.getMap(xPacman-1, yPacman) =='#'){
 			cptMur++;
 		}
@@ -308,13 +308,12 @@ public class AI{
 			cptMur++;
 		}
 
-		malus+=cptMur*1000;
-
+		malus+=cptMur/4;*/
 
 
 
 		//Il va préférer un état où il y a moins de gommes
-		//malus +=beliefState.getNbrOfGommes();
+		malus +=beliefState.getNbrOfGommes();
 
 
 		/*Iterator<Position> it0  = tree0.iterator();
