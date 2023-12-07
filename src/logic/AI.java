@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.TreeSet;
 
 import view.Gomme;
@@ -112,10 +113,36 @@ public class AI{
 	public static String findNextMove(BeliefState beliefState) {
 
 		int deepth = 3; //La profondeur de notre recherche
+		double bestScore = 0;
+		String bestMove = PacManLauncher.LEFT;
 		//String bestAction = PacManLauncher.LEFT;
-		Object[] decision  = getPotentialScore(deepth, beliefState);
-		int potentialScore = (int) decision[0];
-		String bestAction = String.valueOf(decision[1]);
+		//Object[] decision  = getPotentialScore(deepth, beliefState);
+		Plans plan = beliefState.extendsBeliefState();
+		for(int i=0; i<plan.size(); i++) {
+			Result result = plan.getResult(i);
+			double sum = 0;
+			int cpt = 0;
+			for(BeliefState beliefState1:result.getBeliefStates()){
+				cpt++;
+				double potentialScore = getHeuristic(beliefState1);
+				System.out.println("Potental score : " + potentialScore);
+				sum+=potentialScore;
+			}
+			double average = sum/cpt;
+			if(average>bestScore){
+				bestScore = average;
+				bestMove = plan.getAction(i).get(0);
+			}
+
+		}
+		System.out.println("On a choisi ce move " + bestMove);
+		return bestMove;
+
+
+
+
+
+		//String bestAction = String.valueOf(decision[1]);
 
 		/* int bestPotentialScore = 0;
 		Plans plan = beliefState.extendsBeliefState();
@@ -137,11 +164,10 @@ public class AI{
 		//CASE:LEFT
 		//CASE:RIGHT
 
-		return bestAction;
 	}
 
 	// On applique l'algorithme And Or avec une limite de profondeur
-	private static Object[] getPotentialScore(int deepth, BeliefState beliefState) {
+	/*private static Object[] getPotentialScore(int deepth, BeliefState beliefState) {
 		Object[] decision = new Object[2];
 		//On descend jusqu'à notre limite deepth (en faisait attention à s'arrêter si y'a un état final)
 		if(beliefState.getLife()==0 || beliefState.getNbrOfGommes()==0){
@@ -180,7 +206,7 @@ public class AI{
 		}
 
 
-	}
+	}*/
 
 	/*private static String orSearch(BeliefState beliefState){
 		if(beliefState.getLife()==0 || beliefState.getNbrOfGommes()==0){
@@ -198,12 +224,106 @@ public class AI{
 		}
 	}*/
 
-	private static int getHeuristic(BeliefState beliefState) {
+	private static double getHeuristic(BeliefState beliefState) {
+		double bonus = 0;
+		double malus = 0;
+
+		int xPacman = beliefState.getPacmanPosition().getRow();
+		int yPacman = beliefState.getPacmanPosition().getColumn();
+
+		//On vérifie si à gauche / droite /haut / bas y'a une superGomme ou une gomme
+		double cptSuperGomme = 0;
+		double cptGomme = 0;
+		//On regarde ce qu'il y a gauche de pacMan
+		if(beliefState.getMap(xPacman-1, yPacman) =='*'){
+			cptSuperGomme++;
+		}
+		else if(beliefState.getMap(xPacman-1, yPacman) =='.'){
+			cptGomme++;
+		}
+		//On regarde ce qu'il y a droite de pacMan
+		if(beliefState.getMap(xPacman+1, yPacman) =='*'){
+			cptSuperGomme++;
+		}
+		else if(beliefState.getMap(xPacman+1, yPacman) =='.'){
+			cptGomme++;
+		}
+		if(beliefState.getMap(xPacman, yPacman-1) =='*'){
+			cptSuperGomme++;
+		}
+		else if(beliefState.getMap(xPacman, yPacman-1) =='.'){
+			cptGomme++;
+		}
+		if(beliefState.getMap(xPacman, yPacman+1) =='*'){
+			cptSuperGomme++;
+		}
+		else if(beliefState.getMap(xPacman, yPacman+1) =='.'){
+			cptGomme++;
+		}
+		bonus+=(cptSuperGomme/4)*100;
+		bonus+=(cptGomme/4)*10;
+
+
 		//Nombre de gommes mangées
 		//Nombre de fantomes en vue / Nombre de fantomes pas en vue
 		//CompteurPeur (en fonction des cases qui te séparent d'un fantôme) --> pas obligatoire
 		//Si le pacman est proche des gommes/supergommes
 		//Score qu'on a déjà
+
+		//Premier fantome
+		int cptGhost = 0;
+		TreeSet<Position> tree0 = beliefState.getGhostPositions(0);
+		for(Position p:tree0){
+			//Une position potentielle du fantome
+			//On vérifie s'il a un fantome à gauche, à droite, en haut, en bas
+			if(p.x == xPacman-1 && p.y == yPacman){
+				cptGhost++;
+			}
+			if(p.x == xPacman+1 && p.y == yPacman){
+				cptGhost++;
+			}
+			if(p.x == xPacman && p.y == yPacman-1){
+				cptGhost++;
+			}
+			if(p.x == xPacman && p.y == yPacman+1){
+				cptGhost++;
+			}
+		}
+		malus +=(cptGhost)*20000;
+
+
+		//Fuir les murs
+		double cptMur = 0;
+		if(beliefState.getMap(xPacman-1, yPacman) =='#'){
+			cptMur++;
+		}
+		//On regarde ce qu'il y a droite de pacMan
+		if(beliefState.getMap(xPacman+1, yPacman) =='#'){
+			cptMur++;
+		}
+		if(beliefState.getMap(xPacman, yPacman-1) =='#'){
+			cptMur++;
+		}
+		if(beliefState.getMap(xPacman, yPacman+1) =='#'){
+			cptMur++;
+		}
+
+		malus+=cptMur*1000;
+
+
+
+
+		//Il va préférer un état où il y a moins de gommes
+		//malus +=beliefState.getNbrOfGommes();
+
+
+		/*Iterator<Position> it0  = tree0.iterator();
+		//Iterator<Position> it0 = tree0.descendingIterator();
+		while(it0.hasNext()){
+			Position p = it0.next();
+		}
+		System.out.println("Fin du fantome 0 pour ce mouv");*/
+		return bonus-malus;
 	}
 
 
