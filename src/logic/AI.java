@@ -314,16 +314,16 @@ public class AI{
 
 				//On vérifie si y'a un fantôme qui nous fonce dessus (qui n'est pas effrayé)
 				if (dirPacman == 'L' && p.dir == 'R' && p.y == yPacman && p.x < xPacman && !isWallRowBetween(p, beliefState) && beliefState.getCompteurPeur(i)<20) {
-					cptGhostSameDirection+=(100-(xPacman-p.x));
+					cptGhostSameDirection+=(p.x-xPacman);
 				}
 				if (dirPacman == 'R' && p.dir == 'L' && p.y == yPacman && p.x > xPacman && !isWallRowBetween(p, beliefState) && beliefState.getCompteurPeur(i)<20) {
-					cptGhostSameDirection+=(100-(p.x - xPacman));
+					cptGhostSameDirection+=(xPacman - p.x);
 				}
 				if (dirPacman == 'U' && p.dir == 'D' && p.x == xPacman && p.y > yPacman && !isWallColBetween(p, beliefState) && beliefState.getCompteurPeur(i)<30) {
-					cptGhostSameDirection+=(100-(p.y-yPacman));
+					cptGhostSameDirection+=(yPacman-p.y);
 				}
 				if (dirPacman == 'D' && p.dir == 'U' && p.x == xPacman && p.y < yPacman && !isWallColBetween(p, beliefState) && beliefState.getCompteurPeur(i)<30) {
-					cptGhostSameDirection+=(100-(yPacman-p.y));
+					cptGhostSameDirection+=(p.y-yPacman);
 				}
 
 				//On va rajouter du bonus s'il y a un fantôme effrayé très proche
