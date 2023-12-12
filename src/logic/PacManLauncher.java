@@ -181,6 +181,8 @@ public class PacManLauncher {
 				this.meanTimeResolution = ((double)elapsedTime) / this.nbrSamples + (((double)(this.nbrSamples - 1)) / this.nbrSamples) * this.meanTimeResolution;
 			}
 			else {
+				System.out.println("On est kà");
+				System.out.println("x : " + pacman.getX() + "y : " + pacman.getY());
 				if (c.isUpPressed()) {
 					isInit = this.pacman.move(PacManLauncher.UP);
 				} else if (c.isDownPressed()) {

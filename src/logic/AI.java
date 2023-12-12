@@ -112,7 +112,7 @@ public class AI{
 	 * @return a string describing the next action (among PacManLauncher.UP/DOWN/LEFT/RIGHT)
 	 */
 	public static String findNextMove(BeliefState beliefState) {
-
+		ArrayList<String> listBestMove = new ArrayList<>();
 		int deepth = 3; //La profondeur de notre recherche
 		double bestScore = Double.NEGATIVE_INFINITY;
 		String bestMove = PacManLauncher.LEFT;
@@ -132,17 +132,37 @@ public class AI{
 			double average = sum/cpt;
 			System.out.println("L'average est : " + average + " et le move associé est " + plan.getAction(i).get(0));
 			if(average>bestScore){
+				listBestMove.clear();
 				System.out.println("On met à jour notre meilleur score");
 				bestScore = average;
+				for(int j=0; j<plan.getAction(i).size(); j++){
+					listBestMove.add(plan.getAction(i).get(j));
+				}
 
-				Random random = new Random();
+				/*Random random = new Random();
 				int randomNumber = random.nextInt(plan.getAction(i).size());
-				bestMove = plan.getAction(i).get(randomNumber);
+				bestMove = plan.getAction(i).get(randomNumber);*/
+			}
+			else if(average == bestScore){
+				for(int j=0; j<plan.getAction(i).size(); j++){
+					listBestMove.add(plan.getAction(i).get(j));
+				}
 			}
 
 		}
-		System.out.println("On a choisi ce move " + bestMove + " car son heuristique est " + bestScore);
-		return bestMove;
+		/*System.out.println("On a choisi ce move " + bestMove + " car son heuristique est " + bestScore);*/
+		//On return un move au hasard parmis tous les best move
+		if(listBestMove.size()>0){
+			Random random = new Random();
+			int randomNumber = random.nextInt(listBestMove.size());
+			return listBestMove.get(randomNumber);
+		}
+		else{
+			//Pour la dernière itération (avant qu'il se fasse manger, y'a aucun bon score donc listBestMove sera vide)
+			return PacManLauncher.LEFT;
+		}
+
+		/*return bestMove;*/
 
 
 
