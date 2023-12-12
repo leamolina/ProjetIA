@@ -112,6 +112,7 @@ public class AI{
 	 * @return a string describing the next action (among PacManLauncher.UP/DOWN/LEFT/RIGHT)
 	 */
 	public static String findNextMove(BeliefState beliefState) {
+		System.out.println("Nb gommes = " + beliefState.getNbrOfGommes());
 		ArrayList<String> listBestMove = new ArrayList<>();
 		int deepth = 3; //La profondeur de notre recherche
 		double bestScore = Double.NEGATIVE_INFINITY;
@@ -250,8 +251,11 @@ public class AI{
 		}
 	}*/
 
+
+
+
 	private static double getHeuristic(BeliefState beliefState) {
-		if(beliefState.getLife()==0){return -100000;}
+		if(beliefState.getLife()==0){return -1000000;}
 
 		double bonus = 0;
 		double malus = 0;
@@ -309,37 +313,37 @@ public class AI{
 				//Une position potentielle du fantome
 
 				//On vérifie si y'a un fantôme qui nous fonce dessus (qui n'est pas effrayé)
-				if (dirPacman == 'L' && p.dir == 'R' && p.x == xPacman && p.y < yPacman && !isWallRowBetween(p, beliefState) && beliefState.getCompteurPeur(i)<35) {
-					cptGhostSameDirection++;
+				if (dirPacman == 'L' && p.dir == 'R' && p.y == yPacman && p.x < xPacman && !isWallRowBetween(p, beliefState) && beliefState.getCompteurPeur(i)<20) {
+					cptGhostSameDirection+=(100-(xPacman-p.x));
 				}
-				if (dirPacman == 'R' && p.dir == 'L' && p.x == xPacman && p.y > yPacman && !isWallRowBetween(p, beliefState) && beliefState.getCompteurPeur(i)<35) {
-					cptGhostSameDirection++;
+				if (dirPacman == 'R' && p.dir == 'L' && p.y == yPacman && p.x > xPacman && !isWallRowBetween(p, beliefState) && beliefState.getCompteurPeur(i)<20) {
+					cptGhostSameDirection+=(100-(p.x - xPacman));
 				}
-				if (dirPacman == 'U' && p.dir == 'D' && p.y == yPacman && p.x < xPacman && !isWallColBetween(p, beliefState) && beliefState.getCompteurPeur(i)<40) {
-					cptGhostSameDirection++;
+				if (dirPacman == 'U' && p.dir == 'D' && p.x == xPacman && p.y > yPacman && !isWallColBetween(p, beliefState) && beliefState.getCompteurPeur(i)<30) {
+					cptGhostSameDirection+=(100-(p.y-yPacman));
 				}
-				if (dirPacman == 'D' && p.dir == 'U' && p.y == yPacman && p.x > xPacman && !isWallColBetween(p, beliefState) && beliefState.getCompteurPeur(i)<40) {
-					cptGhostSameDirection++;
+				if (dirPacman == 'D' && p.dir == 'U' && p.x == xPacman && p.y < yPacman && !isWallColBetween(p, beliefState) && beliefState.getCompteurPeur(i)<30) {
+					cptGhostSameDirection+=(100-(yPacman-p.y));
 				}
 
 				//On va rajouter du bonus s'il y a un fantôme effrayé très proche
-				if (dirPacman == 'L' && p.x == xPacman && p.y < yPacman && !isWallRowBetween(p, beliefState) && beliefState.getCompteurPeur(i)>=35) {
+				if (dirPacman == 'L' && p.y == yPacman && p.x < xPacman && !isWallRowBetween(p, beliefState) && beliefState.getCompteurPeur(i)>=20) {
 					cptGhostPeur++;
 				}
-				if (dirPacman == 'R' && p.x == xPacman && p.y > yPacman && !isWallRowBetween(p, beliefState) && beliefState.getCompteurPeur(i)>=35) {
+				if (dirPacman == 'R' && p.y == yPacman && p.x > xPacman && !isWallRowBetween(p, beliefState) && beliefState.getCompteurPeur(i)>=20) {
 					cptGhostPeur++;
 				}
-				if (dirPacman == 'U' && p.y == yPacman && p.x < xPacman && !isWallColBetween(p, beliefState) && beliefState.getCompteurPeur(i)>=40) {
+				if (dirPacman == 'U' && p.x == xPacman && p.y < yPacman && !isWallColBetween(p, beliefState) && beliefState.getCompteurPeur(i)>=30) {
 					cptGhostPeur++;
 				}
-				if (dirPacman == 'D' && p.y == yPacman && p.x > xPacman && !isWallColBetween(p, beliefState) && beliefState.getCompteurPeur(i)>=40) {
+				if (dirPacman == 'D' && p.x == xPacman && p.y > yPacman && !isWallColBetween(p, beliefState) && beliefState.getCompteurPeur(i)>=30) {
 					cptGhostPeur++;
 				}
 				System.out.println("Cpt ghost peur = " + cptGhostPeur);
 			}
 		}
-		malus += cptGhostSameDirection*100;
-		bonus += cptGhostPeur*1000;
+		malus += cptGhostSameDirection*100000;
+		bonus += cptGhostPeur*100000;
 
 		//On vérifie la direction des fantômes
 
@@ -368,8 +372,8 @@ public class AI{
 
 
 		//Il va préférer un état où il y a moins de gommes
-		malus +=beliefState.getNbrOfGommes()*10;
-		malus +=beliefState.getNbrOfSuperGommes()*100;
+		malus +=beliefState.getNbrOfGommes()*0.0000;
+		malus +=beliefState.getNbrOfSuperGommes()*0.00;
 
 
 		/*Iterator<Position> it0  = tree0.iterator();
@@ -387,11 +391,11 @@ public class AI{
 		int xGhost = pGhost.x;
 		int yGhost = pGhost.y;
 
-		//On va parcourir les colonnes y (pour la ligne x) et vérifier qu'il n'y a pas de mur qui sépare le pacman du ghost
-		int yStart = Math.min(yPacman, yGhost);
-		int yEnd = Math.max(yPacman, yGhost);
-		for (int y = yStart; y<yEnd; y++){
-			if(beliefState.getMap(xPacman, y) == '#'){
+		//On va parcourir les colonnes x (pour la ligne y) et vérifier qu'il n'y a pas de mur qui sépare le pacman du ghost
+		int xStart = Math.min(xPacman, xGhost);
+		int xEnd = Math.max(xPacman, xGhost);
+		for (int x = xStart; x<xEnd; x++){
+			if(beliefState.getMap(x, yPacman) == '#'){
 				return true;
 			}
 		}
@@ -405,11 +409,11 @@ public class AI{
 		int xGhost = pGhost.x;
 		int yGhost = pGhost.y;
 
-		//On va parcourir les lignes x (pour la colonne y) et vérifier qu'il n'y a pas de mur qui sépare le pacman du ghost
-		int xStart = Math.min(xPacman, xGhost);
-		int xEnd = Math.max(xPacman, xGhost);
-		for (int x = xStart; x<xEnd; x++){
-			if(beliefState.getMap(x, yPacman) == '#'){
+		//On va parcourir les lignes y (pour la colonne x) et vérifier qu'il n'y a pas de mur qui sépare le pacman du ghost
+		int yStart = Math.min(yPacman, yGhost);
+		int yEnd = Math.max(yPacman, yGhost);
+		for (int y = yStart; y<yEnd; y++){
+			if(beliefState.getMap(xPacman, y) == '#'){
 				return true;
 			}
 		}
