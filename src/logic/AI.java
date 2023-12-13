@@ -112,12 +112,40 @@ public class AI{
 	 * @param deepth the deepth of the search (size of the largest sequence of action checked)
 	 * @return a string describing the next action (among PacManLauncher.UP/DOWN/LEFT/RIGHT)
 	 */
-	public static String findNextMove(BeliefState beliefState) {
+	public static String findNextMoveBis(BeliefState beliefState) {
 		int deepth = 4;
 		Plans plan = beliefState.extendsBeliefState();
+		for(int i=0; i<plan.size(); i++) {
+			Result result = plan.getResult(i);
+			//On parcours tous les beliefState de ce result, et on calcule leur heuristique --> On renvoie la moyenne de l'heuristique
+			int potentialScore = getPotentialScore(result,deepth);
+		}
+		//On choisit le max de toutes les moyennes choisies
 		return PacManLauncher.LEFT;
 	}
-		public static String findNextMoveBis(BeliefState beliefState) {
+
+	private static double getPotentialScore(Result result, int deepth) {
+		//Si on a terminé de parcourir
+		if(deepth==0){
+			double average=0;
+			for(BeliefState beliefState: result.getBeliefStates()){
+				average+=getHeuristic(beliefState);
+			}
+			return average/result.getBeliefStates().size();
+		}
+		else{
+			for(BeliefState beliefState: result.getBeliefStates()){
+				Plans plan = beliefState.extendsBeliefState();
+				for(int i=0; i<plan.size(); i++) {
+					Result res = plan.getResult(i);
+					double score = getPotentialScore(res, deepth-1);
+				}
+			}
+		}
+
+	}
+
+	public static String findNextMove(BeliefState beliefState) {
 		System.out.println("Nb gommes = " + beliefState.getNbrOfGommes());
 		ArrayList<String> listBestMove = new ArrayList<>();
 		int deepth = 3; //La profondeur de notre recherche
